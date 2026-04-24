@@ -3,63 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DIY BLORA - Fast Monitor</title>
+    <title>DIY BLORA - Fast Monitoring</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-100 p-2 font-sans">
+<body class="bg-gray-100 p-2 font-sans text-gray-800">
 
-    <div id="loginPage" class="max-w-sm mx-auto bg-white p-6 rounded-xl shadow-lg mt-20 border border-gray-200">
-        <h2 class="text-2xl font-black text-blue-700 text-center mb-6">DIY BLORA</h2>
+    <div id="loginPage" class="max-w-sm mx-auto bg-white p-6 rounded-xl shadow-lg mt-10">
+        <h2 class="text-2xl font-black text-blue-700 text-center mb-4">DIY BLORA</h2>
         <div class="space-y-4">
-            <select id="tokoSelect" class="w-full p-3 border rounded-lg bg-gray-50 outline-none focus:ring-2 focus:ring-blue-500">
+            <select id="tokoSelect" class="w-full p-3 border rounded-lg bg-gray-50 outline-none">
                 <option value="XLUN">TOKO XLUN</option>
                 <option value="XBLO">TOKO XBLO</option>
             </select>
-            <input type="password" id="passInput" placeholder="Password" class="w-full p-3 border rounded-lg bg-gray-50 outline-none focus:ring-2 focus:ring-blue-500">
-            <button onclick="masuk()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition">MASUK</button>
+            <input type="password" id="passInput" placeholder="Password" class="w-full p-3 border rounded-lg bg-gray-50 outline-none">
+            <button onclick="masuk()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-lg hover:bg-blue-700 transition">MASUK</button>
         </div>
     </div>
 
-    <div id="mainPage" class="hidden max-w-4xl mx-auto">
-        <div class="flex justify-between items-center p-4 bg-white mb-4 rounded-lg shadow-sm">
-            <b id="tokoAktif" class="text-blue-700 uppercase tracking-wider"></b>
-            <button onclick="location.reload()" class="bg-red-50 text-red-500 px-4 py-1 rounded-full text-xs font-bold">Logout</button>
+    <div id="mainPage" class="hidden max-w-5xl mx-auto">
+        <div class="flex justify-between items-center p-3 bg-white mb-4 rounded-lg shadow-sm border">
+            <b id="tokoAktif" class="text-blue-700 uppercase"></b>
+            <button onclick="location.reload()" class="text-red-500 font-bold text-xs bg-red-50 px-3 py-1 rounded-full">Keluar</button>
         </div>
 
-        <form id="fInput" class="bg-white p-5 rounded-lg shadow-sm space-y-4 border border-gray-100">
+        <form id="fInput" class="bg-white p-5 rounded-lg shadow-sm space-y-4 border mb-6">
             <div class="grid grid-cols-2 gap-3">
                 <input type="date" id="tgl" required class="border-b p-2 outline-none focus:border-blue-500">
                 <select id="jbt" class="border-b p-2 outline-none focus:border-blue-500">
                     <option>RM</option><option>AM</option><option>DM</option><option>BM</option><option>ABM</option>
                 </select>
             </div>
-            <textarea id="tmn" placeholder="Tulis temuan di sini..." required class="w-full border-b p-2 outline-none focus:border-blue-500 h-20"></textarea>
+            <textarea id="tmn" placeholder="Deskripsi Temuan..." required class="w-full border p-2 rounded-lg h-16 outline-none focus:ring-1 focus:ring-blue-400"></textarea>
             
-            <div class="grid grid-cols-2 gap-4 bg-gray-50 p-3 rounded-lg border border-dashed border-gray-300">
+            <div class="grid grid-cols-2 gap-4 p-3 bg-gray-50 rounded-lg border border-dashed">
                 <div>
-                    <label class="block text-[10px] font-bold text-gray-400">FOTO BEFORE</label>
+                    <label class="block text-[10px] font-bold text-gray-400 tracking-tight">FOTO BEFORE (AUTO COMPRESS)</label>
                     <input type="file" id="fB" accept="image/*" class="text-[10px] mt-1">
                 </div>
                 <div>
-                    <label class="block text-[10px] font-bold text-gray-400">FOTO AFTER</label>
+                    <label class="block text-[10px] font-bold text-gray-400 tracking-tight">FOTO AFTER (AUTO COMPRESS)</label>
                     <input type="file" id="fA" accept="image/*" class="text-[10px] mt-1">
                 </div>
             </div>
             
-            <input type="text" id="rmk" placeholder="Remark / Catatan" class="w-full border-b p-2 outline-none focus:border-blue-500">
-            <button type="submit" id="btn" class="w-full bg-gray-800 hover:bg-black text-white py-4 rounded-xl font-bold shadow-lg transition">SIMPAN DATA</button>
+            <input type="text" id="rmk" placeholder="Remark / Catatan Tambahan" class="w-full border-b p-2 outline-none">
+            <button type="submit" id="btn" class="w-full bg-slate-800 text-white py-4 rounded-xl font-bold hover:bg-black transition shadow-md">SIMPAN DATA</button>
         </form>
 
-        <div class="mt-6 bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100">
-            <div class="p-3 bg-gray-50 border-b text-[10px] font-bold text-gray-500">DATA MONITORING TERBARU</div>
+        <div class="bg-white rounded-lg shadow-sm overflow-hidden border">
             <div class="overflow-x-auto">
                 <table class="w-full text-[12px] text-left">
-                    <thead class="bg-gray-100 text-gray-600 uppercase text-[9px]">
+                    <thead class="bg-gray-800 text-white uppercase text-[9px]">
                         <tr>
-                            <th class="p-3">Tanggal</th><th class="p-3">Temuan</th><th class="p-3">Foto</th><th class="p-3">Aksi</th>
+                            <th class="p-3">Tanggal</th><th class="p-3">Temuan</th><th class="p-3">Foto</th>
+                            <th class="p-3">Komentar SPV</th><th class="p-3 text-center">Aksi</th>
                         </tr>
                     </thead>
-                    <tbody id="list" class="divide-y divide-gray-100"></tbody>
+                    <tbody id="list" class="divide-y"></tbody>
                 </table>
             </div>
         </div>
@@ -67,12 +67,11 @@
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getDatabase, ref, push, onValue, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getDatabase, ref, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
         import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-        // --- KONFIGURASI PROYEK DIYBLORA ---
         const cfg = {
-            apiKey: "MASUKKAN_API_KEY_ASLI_ANDA", // <--- GANTI INI DENGAN API KEY ANDA
+            apiKey: "MASUKKAN_API_KEY_ANDA", 
             databaseURL: "https://diyblora-default-rtdb.asia-southeast1.firebasedatabase.app/",
             projectId: "diyblora",
             storageBucket: "diyblora.appspot.com"
@@ -83,93 +82,122 @@
         const st = getStorage(app);
         let tk = "";
 
-        // Fungsi Masuk Manual
+        // Fungsi Kompresi Gambar
+        async function compressImage(file) {
+            return new Promise((resolve) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (event) => {
+                    const img = new Image();
+                    img.src = event.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        const MAX_WIDTH = 1024; // Maks lebar 1024px agar ringan
+                        let width = img.width;
+                        let height = img.height;
+
+                        if (width > height) {
+                            if (width > MAX_WIDTH) {
+                                height *= MAX_WIDTH / width;
+                                width = MAX_WIDTH;
+                            }
+                        } else {
+                            if (height > MAX_WIDTH) {
+                                width *= MAX_WIDTH / height;
+                                height = MAX_WIDTH;
+                            }
+                        }
+                        canvas.width = width;
+                        canvas.height = height;
+                        const ctx = canvas.getContext('2d');
+                        ctx.drawImage(img, 0, 0, width, height);
+                        canvas.toBlob((blob) => {
+                            resolve(blob);
+                        }, 'image/jpeg', 0.7); // Quality 70%
+                    };
+                };
+            });
+        }
+
         window.masuk = () => {
-            const pass = document.getElementById('passInput').value;
-            if(pass === "123") { // Password sangat simpel agar cepat
+            if(document.getElementById('passInput').value === "123") {
                 tk = document.getElementById('tokoSelect').value;
                 document.getElementById('loginPage').classList.add('hidden');
                 document.getElementById('mainPage').classList.remove('hidden');
-                document.getElementById('tokoAktif').innerText = "MONITORING: " + tk;
+                document.getElementById('tokoAktif').innerText = "UNIT: " + tk;
                 load();
-            } else { 
-                alert("Password Salah!"); 
-            }
+            } else { alert("Password Salah!"); }
         };
 
-        // Simpan Data
         document.getElementById('fInput').onsubmit = async (e) => {
             e.preventDefault();
             const b = document.getElementById('btn');
-            b.disabled = true; b.innerText = "Sabar, Sedang Mengirim...";
+            b.disabled = true; b.innerText = "Mengompres & Mengirim...";
             
             try {
                 const imgB = document.getElementById('fB').files[0];
                 const imgA = document.getElementById('fA').files[0];
                 
-                // Upload paralel agar lebih cepat
+                // Kompres dulu baru upload
+                const compressedB = imgB ? await compressImage(imgB) : null;
+                const compressedA = imgA ? await compressImage(imgA) : null;
+
                 const [uB, uA] = await Promise.all([
-                    imgB ? up(imgB, 'B') : Promise.resolve(""),
-                    imgA ? up(imgA, 'A') : Promise.resolve("")
+                    compressedB ? up(compressedB, 'B') : Promise.resolve(""),
+                    compressedA ? up(compressedA, 'A') : Promise.resolve("")
                 ]);
 
                 await push(ref(db, `monitoring/${tk}`), {
                     tgl: document.getElementById('tgl').value,
                     jbt: document.getElementById('jbt').value,
                     tmn: document.getElementById('tmn').value,
-                    fB: uB, 
-                    fA: uA,
+                    fB: uB, fA: uA,
                     rmk: document.getElementById('rmk').value,
-                    spv: "", 
-                    aks: "Pending"
+                    spv: "", aks: "Pending"
                 });
-                
-                alert("Data Berhasil Tersimpan ke " + tk);
-                e.target.reset();
-            } catch (e) { 
-                alert("Gagal Kirim! Cek Koneksi & API Key."); 
-            }
+                alert("Data Berhasil Terkirim!"); e.target.reset();
+            } catch (e) { alert("Error! Cek API Key atau Koneksi."); }
             b.disabled = false; b.innerText = "SIMPAN DATA";
         };
 
-        // Fungsi Upload Foto
-        async function up(f, n) {
-            const r = sRef(st, `m/${Date.now()}_${n}`);
-            await uploadBytes(r, f);
+        async function up(blob, n) {
+            const r = sRef(st, `m/${Date.now()}_${n}.jpg`);
+            await uploadBytes(r, blob);
             return getDownloadURL(r);
         }
 
-        // Tampilkan Data
         function load() {
             onValue(ref(db, `monitoring/${tk}`), (s) => {
-                const l = document.getElementById('list'); 
-                l.innerHTML = "";
+                const l = document.getElementById('list'); l.innerHTML = "";
                 s.forEach((c) => {
                     const d = c.val();
                     l.innerHTML += `
-                        <tr class="hover:bg-gray-50">
-                            <td class="p-3 font-bold text-gray-700">${d.tgl}</td>
-                            <td class="p-3 text-gray-600">${d.tmn}</td>
+                        <tr class="hover:bg-gray-50 border-b">
+                            <td class="p-3 font-bold">${d.tgl}</td>
+                            <td class="p-3 text-gray-600">${d.tmn}<br><span class="text-[9px] text-blue-500 font-bold uppercase">${d.jbt}</span></td>
                             <td class="p-3">
                                 <div class="flex gap-2">
-                                    ${d.fB ? `<a href="${d.fB}" target="_blank" class="text-blue-500 font-bold">B</a>` : ''}
-                                    ${d.fA ? `<a href="${d.fA}" target="_blank" class="text-green-500 font-bold">A</a>` : ''}
+                                    ${d.fB ? `<a href="${d.fB}" target="_blank" class="text-blue-500 font-black border border-blue-500 px-1 rounded">B</a>` : ''}
+                                    ${d.fA ? `<a href="${d.fA}" target="_blank" class="text-green-500 font-black border border-green-500 px-1 rounded">A</a>` : ''}
                                 </div>
                             </td>
                             <td class="p-3">
-                                <select onchange="upd('${c.key}', this.value)" class="text-[10px] border rounded bg-white">
+                                <textarea onchange="upd('${c.key}', 'spv', this.value)" class="w-full border rounded p-1 text-[10px]" placeholder="Isi komentar...">${d.spv || ''}</textarea>
+                            </td>
+                            <td class="p-3 text-center space-y-1">
+                                <select onchange="upd('${c.key}', 'aks', this.value)" class="text-[10px] border rounded w-full bg-white p-1">
                                     <option ${d.aks == 'Pending' ? 'selected' : ''}>Pending</option>
                                     <option ${d.aks == 'Selesai' ? 'selected' : ''}>Selesai</option>
                                 </select>
+                                <button onclick="hapus('${c.key}')" class="text-[9px] bg-red-600 text-white px-2 py-1 rounded w-full font-bold">HAPUS</button>
                             </td>
                         </tr>`;
                 });
             });
         }
 
-        window.upd = (id, v) => { 
-            update(ref(db, `monitoring/${tk}/${id}`), { aks: v }); 
-        };
+        window.upd = (id, fld, v) => { update(ref(db, `monitoring/${tk}/${id}`), { [fld]: v }); };
+        window.hapus = (id) => { if(confirm("Hapus data ini?")) { remove(ref(db, `monitoring/${tk}/${id}`)); } };
     </script>
 </body>
 </html>
