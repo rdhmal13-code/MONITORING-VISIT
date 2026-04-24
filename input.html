@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Input Panel - DIY BLORA</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>.hidden { display: none; }</style>
+</head>
+<body class="bg-slate-900 p-4 text-white">
+
+    <div id="loginBox" class="max-w-sm mx-auto mt-20 bg-white p-8 rounded-3xl text-slate-800 shadow-2xl">
+        <h2 class="text-center font-black text-2xl mb-6">STAFF LOGIN</h2>
+        <input type="password" id="pass" placeholder="Password" class="w-full p-3 border rounded-xl mb-4 outline-none focus:ring-2 focus:ring-blue-500">
+        <button onclick="checkPass()" class="w-full bg-blue-600 text-white font-bold py-3 rounded-xl">BUKA PANEL INPUT</button>
+    </div>
+
+    <div id="inputPanel" class="hidden max-w-4xl mx-auto">
+        <div class="flex justify-between items-center mb-6">
+            <h1 class="text-xl font-black">PANEL INPUT TEMUAN</h1>
+            <button onclick="location.reload()" class="text-xs bg-red-600 px-4 py-1 rounded-full">LOGOUT</button>
+        </div>
+
+        <form id="fInput" class="bg-white text-slate-800 p-6 rounded-3xl space-y-4 mb-8">
+            <div class="grid grid-cols-2 gap-4">
+                <select id="tk" class="border-b p-2 font-bold text-blue-600"><option value="XLUN">UNIT XLUN</option><option value="XBLO">UNIT XBLO</option></select>
+                <input type="date" id="tgl" required class="border-b p-2">
+            </div>
+            <select id="jbt" class="w-full border-b p-2"><option>RM</option><option>AM</option><option>DM</option><option>BM</option><option>ABM</option></select>
+            <textarea id="tmn" placeholder="Deskripsi Temuan..." required class="w-full border p-3 rounded-xl h-20"></textarea>
+            
+            <div class="grid grid-cols-2 gap-4 bg-slate-100 p-4 rounded-2xl border-2 border-dashed">
+                <div><label class="text-[10px] font-black">BEFORE</label><input type="file" id="fB" accept="image/*" class="text-[10px] block"></div>
+                <div><label class="text-[10px] font-black">AFTER</label><input type="file" id="fA" accept="image/*" class="text-[10px] block"></div>
+            </div>
+
+            <button type="submit" id="btn" class="w-full bg-blue-600 text-white font-black py-4 rounded-2xl shadow-lg hover:bg-blue-700">KIRIM & UPLOAD</button>
+        </form>
+
+        <div id="adminList" class="space-y-4"></div>
+    </div>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
+        import { getDatabase, ref, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
+        import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
+
+        const cfg = {
+            apiKey: "MASUKKAN_API_KEY_ANDA",
+            databaseURL: "https://diyblora-default-rtdb.asia-southeast1.firebasedatabase.app/",
+            projectId: "diyblora",
+            storageBucket: "diyblora.appspot.com"
+        };
+        const app = initializeApp(cfg);
+        const db = getDatabase(app);
+        const st = getStorage(app);
+
+        window.checkPass = () => {
+            if(document.getElementById('pass').value === "123") {
+                document.getElementById('loginBox').classList.add('hidden');
+                document.getElementById('inputPanel').classList.remove('hidden');
+                loadAdmin();
+            } else { alert("Password Salah!"); }
+        };
+
+        // Fungsi Kompresi (Agar Cepat)
+        async function compress(file) {
+            return new Promise((res) => {
+                const reader = new FileReader();
+                reader.readAsDataURL(file);
+                reader.onload = (e) => {
+                    const img = new Image();
+                    img.src = e.target.result;
+                    img.onload = () => {
+                        const canvas = document.createElement('canvas');
+                        canvas.width = 800; canvas.height = (img.height/img.width)*800;
+                        canvas.getContext('2d').drawImage(img, 0, 0, canvas.width, canvas.height);
+                        canvas.toBlob((blob) => res(blob), 'image/jpeg', 0.6);
+                    };
+                };
+            });
+        }
+
+        document.getElementById('fInput').onsubmit = async (e) => {
+            e.preventDefault();
+            const b = document.getElementById('btn');
+            const tkVal = document.getElementById('tk').value;
+            b.disabled = true; b.innerText = "Sabar, Sedang Upload...";
+
+            try {
+                const [cB, cA] = await Promise.all([
+                    document.getElementById('fB').files[0] ? compress(document.getElementById('fB').files[0]) : null,
+                    document.getElementById('fA').files[0] ? compress(document.getElementById('fA').files[0]) : null
+                ]);
+
+                const [uB, uA] = await Promise.all([
+                    cB ? up(cB, 'B') : Promise.resolve(""),
+                    cA ? up(cA, 'A') : Promise.resolve("")
+                ]);
+
+                await push(ref(db, `monitoring/${tkVal}`), {
+                    tgl: document.getElementById('tgl').value,
+                    jbt: document.getElementById('jbt').value,
+                    tmn: document.getElementById('tmn').value,
+                    fB: uB, fA: uA, spv: "", aks: "Pending"
+                });
+                alert("Data Masuk!"); e.target.reset();
+            } catch (err) { alert("Gagal!"); }
+            b.disabled = false; b.innerText = "KIRIM & UPLOAD";
+        };
+
+        async function up(blob, n) {
+            const r = sRef(st, `m/${Date.now()}_${n}.jpg`);
+            await uploadBytes(r, blob);
+            return getDownloadURL(r);
+        }
+
+        function loadAdmin() {
+            onValue(ref(db, `monitoring`), (snap) => {
+                const list = document.getElementById('adminList');
+                list.innerHTML = "";
+                snap.forEach(tokoSnap => {
+                    tokoSnap.forEach(item => {
+                        const d = item.val();
+                        list.innerHTML += `
+                            <div class="bg-white text-slate-800 p-4 rounded-2xl flex justify-between items-center">
+                                <div class="text-xs">
+                                    <b class="text-blue-600">${tokoSnap.key}</b> | ${d.tmn}
+                                </div>
+                                <button onclick="hapus('${tokoSnap.key}','${item.key}')" class="bg-red-100 text-red-600 px-3 py-1 rounded-lg text-[10px] font-bold">HAPUS</button>
+                            </div>`;
+                    });
+                });
+            });
+        }
+
+        window.hapus = (toko, id) => { if(confirm("Hapus?")) remove(ref(db, `monitoring/${toko}/${id}`)); };
+    </script>
+</body>
+</html>
