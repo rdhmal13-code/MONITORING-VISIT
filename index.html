@@ -3,47 +3,65 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitoring DIY BLORA</title>
+    <title>DIY BLORA - Fast Monitor</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-slate-100 p-4">
+<body class="bg-gray-100 p-2 font-sans">
 
-    <div id="loginPage" class="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-xl mt-20 border border-slate-200">
-        <h2 class="text-3xl font-extrabold text-blue-800 text-center mb-6">DIY BLORA</h2>
-        <div class="space-y-5">
-            <select id="tokoSelect" class="w-full p-3 border-2 border-slate-100 rounded-xl outline-none focus:border-blue-500">
-                <option value="XLUN">Toko XLUN</option>
-                <option value="XBLO">Toko XBLO</option>
+    <div id="loginPage" class="max-w-sm mx-auto bg-white p-6 rounded-xl shadow-lg mt-20 border border-gray-200">
+        <h2 class="text-2xl font-black text-blue-700 text-center mb-6">DIY BLORA</h2>
+        <div class="space-y-4">
+            <select id="tokoSelect" class="w-full p-3 border rounded-lg bg-gray-50 outline-none focus:ring-2 focus:ring-blue-500">
+                <option value="XLUN">TOKO XLUN</option>
+                <option value="XBLO">TOKO XBLO</option>
             </select>
-            <input type="password" id="passwordInput" placeholder="Masukkan Password" class="w-full p-3 border-2 border-slate-100 rounded-xl outline-none focus:border-blue-500">
-            <button onclick="loginManual()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition shadow-lg">Masuk</button>
+            <input type="password" id="passInput" placeholder="Password" class="w-full p-3 border rounded-lg bg-gray-50 outline-none focus:ring-2 focus:ring-blue-500">
+            <button onclick="masuk()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-lg transition">MASUK</button>
         </div>
     </div>
 
-    <div id="mainPage" class="hidden max-w-6xl mx-auto">
-        <div class="flex justify-between items-center mb-6 bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-            <h1 id="displayToko" class="text-2xl font-black text-blue-700 uppercase"></h1>
-            <button onclick="location.reload()" class="bg-red-50 text-red-600 px-6 py-2 rounded-full text-sm font-bold">Logout</button>
+    <div id="mainPage" class="hidden max-w-4xl mx-auto">
+        <div class="flex justify-between items-center p-4 bg-white mb-4 rounded-lg shadow-sm">
+            <b id="tokoAktif" class="text-blue-700 uppercase tracking-wider"></b>
+            <button onclick="location.reload()" class="bg-red-50 text-red-500 px-4 py-1 rounded-full text-xs font-bold">Logout</button>
         </div>
 
-        <form id="formInput" class="bg-white p-6 rounded-2xl shadow-sm mb-10 border border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-4">
-            <div class="md:col-span-2 text-lg font-bold border-b pb-2">Input Temuan</div>
-            <div><label class="text-xs font-bold text-slate-400 uppercase">Tanggal</label><input type="date" id="tanggal" required class="w-full border-b-2 p-2 outline-none focus:border-blue-500"></div>
-            <div><label class="text-xs font-bold text-slate-400 uppercase">Jabatan</label><select id="jabatan" class="w-full border-b-2 p-2 outline-none focus:border-blue-500"><option>RM</option><option>AM</option><option>DM</option><option>BM</option><option>ABM</option></select></div>
-            <div class="md:col-span-2"><label class="text-xs font-bold text-slate-400 uppercase">Temuan</label><textarea id="temuan" required class="w-full border-b-2 p-2 outline-none focus:border-blue-500"></textarea></div>
-            <div class="bg-blue-50 p-3 rounded-xl"><label class="text-xs font-bold text-blue-500">Foto Before</label><input type="file" id="fotoBefore" accept="image/*" class="w-full text-sm"></div>
-            <div class="bg-green-50 p-3 rounded-xl"><label class="text-xs font-bold text-green-500">Foto After</label><input type="file" id="fotoAfter" accept="image/*" class="w-full text-sm"></div>
-            <div class="md:col-span-2"><label class="text-xs font-bold text-slate-400 uppercase">Remark</label><input type="text" id="remark" class="w-full border-b-2 p-2 outline-none"></div>
-            <button type="submit" id="btnSimpan" class="md:col-span-2 bg-slate-800 text-white font-bold py-4 rounded-xl hover:bg-black transition">Simpan & Upload</button>
+        <form id="fInput" class="bg-white p-5 rounded-lg shadow-sm space-y-4 border border-gray-100">
+            <div class="grid grid-cols-2 gap-3">
+                <input type="date" id="tgl" required class="border-b p-2 outline-none focus:border-blue-500">
+                <select id="jbt" class="border-b p-2 outline-none focus:border-blue-500">
+                    <option>RM</option><option>AM</option><option>DM</option><option>BM</option><option>ABM</option>
+                </select>
+            </div>
+            <textarea id="tmn" placeholder="Tulis temuan di sini..." required class="w-full border-b p-2 outline-none focus:border-blue-500 h-20"></textarea>
+            
+            <div class="grid grid-cols-2 gap-4 bg-gray-50 p-3 rounded-lg border border-dashed border-gray-300">
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400">FOTO BEFORE</label>
+                    <input type="file" id="fB" accept="image/*" class="text-[10px] mt-1">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-gray-400">FOTO AFTER</label>
+                    <input type="file" id="fA" accept="image/*" class="text-[10px] mt-1">
+                </div>
+            </div>
+            
+            <input type="text" id="rmk" placeholder="Remark / Catatan" class="w-full border-b p-2 outline-none focus:border-blue-500">
+            <button type="submit" id="btn" class="w-full bg-gray-800 hover:bg-black text-white py-4 rounded-xl font-bold shadow-lg transition">SIMPAN DATA</button>
         </form>
 
-        <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-x-auto">
-            <table class="w-full text-sm text-left">
-                <thead class="bg-slate-800 text-white">
-                    <tr><th class="p-4">Tanggal</th><th class="p-4">Jabatan</th><th class="p-4">Temuan</th><th class="p-4">Foto</th><th class="p-4">Remark</th><th class="p-4">Komentar SPV</th><th class="p-4">Aksi</th></tr>
-                </thead>
-                <tbody id="dataList" class="divide-y divide-slate-100"></tbody>
-            </table>
+        <div class="mt-6 bg-white rounded-lg shadow-sm overflow-hidden border border-gray-100">
+            <div class="p-3 bg-gray-50 border-b text-[10px] font-bold text-gray-500">DATA MONITORING TERBARU</div>
+            <div class="overflow-x-auto">
+                <table class="w-full text-[12px] text-left">
+                    <thead class="bg-gray-100 text-gray-600 uppercase text-[9px]">
+                        <tr>
+                            <th class="p-3">Tanggal</th><th class="p-3">Temuan</th><th class="p-3">Foto</th><th class="p-3">Aksi</th>
+                        </tr>
+                    </thead>
+                    <tbody id="list" class="divide-y divide-gray-100"></tbody>
+                </table>
+            </div>
         </div>
     </div>
 
@@ -52,82 +70,105 @@
         import { getDatabase, ref, push, onValue, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
         import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-        // GANTI API KEY INI DENGAN PUNYA ANDA (Ada di Project Settings)
-        const firebaseConfig = {
-            apiKey: "SALIN_API_KEY_ANDA_DI_SINI", 
-            databaseURL: "https://diyblora-default-rtdb.firebaseio.com",
+        // --- KONFIGURASI PROYEK DIYBLORA ---
+        const cfg = {
+            apiKey: "MASUKKAN_API_KEY_ASLI_ANDA", // <--- GANTI INI DENGAN API KEY ANDA
+            databaseURL: "https://diyblora-default-rtdb.asia-southeast1.firebasedatabase.app/",
             projectId: "diyblora",
             storageBucket: "diyblora.appspot.com"
         };
 
-        const app = initializeApp(firebaseConfig);
+        const app = initializeApp(cfg);
         const db = getDatabase(app);
-        const storage = getStorage(app);
-        let activeToko = "";
+        const st = getStorage(app);
+        let tk = "";
 
-        window.loginManual = () => {
-            const pass = document.getElementById('passwordInput').value;
-            if (pass === "diyblora123") { // Password Anda
-                activeToko = document.getElementById('tokoSelect').value;
+        // Fungsi Masuk Manual
+        window.masuk = () => {
+            const pass = document.getElementById('passInput').value;
+            if(pass === "123") { // Password sangat simpel agar cepat
+                tk = document.getElementById('tokoSelect').value;
                 document.getElementById('loginPage').classList.add('hidden');
                 document.getElementById('mainPage').classList.remove('hidden');
-                document.getElementById('displayToko').innerText = "Toko: " + activeToko;
-                loadData(activeToko);
-            } else { alert("Password Salah!"); }
+                document.getElementById('tokoAktif').innerText = "MONITORING: " + tk;
+                load();
+            } else { 
+                alert("Password Salah!"); 
+            }
         };
 
-        document.getElementById('formInput').onsubmit = async (e) => {
+        // Simpan Data
+        document.getElementById('fInput').onsubmit = async (e) => {
             e.preventDefault();
-            const btn = document.getElementById('btnSimpan');
-            btn.disabled = true; btn.innerText = "Mengupload...";
-            const fB = document.getElementById('fotoBefore').files[0];
-            const fA = document.getElementById('fotoAfter').files[0];
+            const b = document.getElementById('btn');
+            b.disabled = true; b.innerText = "Sabar, Sedang Mengirim...";
+            
             try {
-                const uB = fB ? await uploadFile(fB, 'before') : "";
-                const uA = fA ? await uploadFile(fA, 'after') : "";
-                await push(ref(db, `monitoring/${activeToko}`), {
-                    tanggal: document.getElementById('tanggal').value,
-                    jabatan: document.getElementById('jabatan').value,
-                    temuan: document.getElementById('temuan').value,
-                    fotoBefore: uB, fotoAfter: uA,
-                    remark: document.getElementById('remark').value,
-                    komentarSPV: "", aksi: "Pending"
+                const imgB = document.getElementById('fB').files[0];
+                const imgA = document.getElementById('fA').files[0];
+                
+                // Upload paralel agar lebih cepat
+                const [uB, uA] = await Promise.all([
+                    imgB ? up(imgB, 'B') : Promise.resolve(""),
+                    imgA ? up(imgA, 'A') : Promise.resolve("")
+                ]);
+
+                await push(ref(db, `monitoring/${tk}`), {
+                    tgl: document.getElementById('tgl').value,
+                    jbt: document.getElementById('jbt').value,
+                    tmn: document.getElementById('tmn').value,
+                    fB: uB, 
+                    fA: uA,
+                    rmk: document.getElementById('rmk').value,
+                    spv: "", 
+                    aks: "Pending"
                 });
-                alert("Berhasil!"); e.target.reset();
-            } catch (err) { alert(err.message); }
-            btn.disabled = false; btn.innerText = "Simpan & Upload";
+                
+                alert("Data Berhasil Tersimpan ke " + tk);
+                e.target.reset();
+            } catch (e) { 
+                alert("Gagal Kirim! Cek Koneksi & API Key."); 
+            }
+            b.disabled = false; b.innerText = "SIMPAN DATA";
         };
 
-        async function uploadFile(file, type) {
-            const storageRef = sRef(storage, `fotos/${Date.now()}_${type}`);
-            await uploadBytes(storageRef, file);
-            return getDownloadURL(storageRef);
+        // Fungsi Upload Foto
+        async function up(f, n) {
+            const r = sRef(st, `m/${Date.now()}_${n}`);
+            await uploadBytes(r, f);
+            return getDownloadURL(r);
         }
 
-        function loadData(toko) {
-            onValue(ref(db, `monitoring/${toko}`), (snap) => {
-                const list = document.getElementById('dataList');
-                list.innerHTML = "";
-                snap.forEach((child) => {
-                    const d = child.val();
-                    list.innerHTML += `<tr>
-                        <td class="p-4 font-bold">${d.tanggal}</td>
-                        <td class="p-4 text-blue-600 font-bold text-xs">${d.jabatan}</td>
-                        <td class="p-4">${d.temuan}</td>
-                        <td class="p-4 flex gap-1">
-                            ${d.fotoBefore ? `<a href="${d.fotoBefore}" target="_blank" class="bg-blue-500 text-white p-1 rounded text-[9px]">B</a>` : ''}
-                            ${d.fotoAfter ? `<a href="${d.fotoAfter}" target="_blank" class="bg-green-500 text-white p-1 rounded text-[9px]">A</a>` : ''}
-                        </td>
-                        <td class="p-4 text-slate-500 text-xs">${d.remark || '-'}</td>
-                        <td class="p-4"><textarea onchange="updateData('${toko}','${child.key}', 'komentarSPV', this.value)" class="w-full border p-1 text-xs">${d.komentarSPV}</textarea></td>
-                        <td class="p-4"><select onchange="updateData('${toko}','${child.key}', 'aksi', this.value)" class="text-xs p-1 border"><option ${d.aksi == 'Pending' ? 'selected' : ''}>Pending</option><option ${d.aksi == 'Selesai' ? 'selected' : ''}>Selesai</option></select></td>
-                    </tr>`;
+        // Tampilkan Data
+        function load() {
+            onValue(ref(db, `monitoring/${tk}`), (s) => {
+                const l = document.getElementById('list'); 
+                l.innerHTML = "";
+                s.forEach((c) => {
+                    const d = c.val();
+                    l.innerHTML += `
+                        <tr class="hover:bg-gray-50">
+                            <td class="p-3 font-bold text-gray-700">${d.tgl}</td>
+                            <td class="p-3 text-gray-600">${d.tmn}</td>
+                            <td class="p-3">
+                                <div class="flex gap-2">
+                                    ${d.fB ? `<a href="${d.fB}" target="_blank" class="text-blue-500 font-bold">B</a>` : ''}
+                                    ${d.fA ? `<a href="${d.fA}" target="_blank" class="text-green-500 font-bold">A</a>` : ''}
+                                </div>
+                            </td>
+                            <td class="p-3">
+                                <select onchange="upd('${c.key}', this.value)" class="text-[10px] border rounded bg-white">
+                                    <option ${d.aks == 'Pending' ? 'selected' : ''}>Pending</option>
+                                    <option ${d.aks == 'Selesai' ? 'selected' : ''}>Selesai</option>
+                                </select>
+                            </td>
+                        </tr>`;
                 });
             });
         }
 
-        window.updateData = (toko, id, field, value) => {
-            update(ref(db, `monitoring/${toko}/${id}`), { [field]: value });
+        window.upd = (id, v) => { 
+            update(ref(db, `monitoring/${tk}/${id}`), { aks: v }); 
         };
     </script>
 </body>
