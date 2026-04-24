@@ -11,7 +11,7 @@
     <div id="loginPage" class="max-w-md mx-auto bg-white p-8 rounded-2xl shadow-xl mt-20 border border-slate-200">
         <div class="text-center mb-8">
             <h2 class="text-3xl font-extrabold text-blue-800">DIY BLORA</h2>
-            <p class="text-slate-500 mt-2 text-sm italic">Monitoring Realtime Database</p>
+            <p class="text-slate-500 mt-2 text-sm italic">Monitoring Login Manual</p>
         </div>
         <div class="space-y-5">
             <div>
@@ -22,142 +22,83 @@
                 </select>
             </div>
             <div>
-                <label class="block text-sm font-semibold mb-1 text-slate-600">Password</label>
-                <input type="password" id="password" placeholder="Masukkan password" class="w-full p-3 border-2 border-slate-100 rounded-xl focus:border-blue-500 outline-none">
+                <label class="block text-sm font-semibold mb-1 text-slate-600">Password Akses</label>
+                <input type="password" id="passwordInput" placeholder="Masukkan password" class="w-full p-3 border-2 border-slate-100 rounded-xl focus:border-blue-500 outline-none">
             </div>
-            <button onclick="loginToko()" id="btnLogin" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-lg transition duration-200">
-                Masuk
+            <button onclick="loginManual()" class="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl shadow-lg transition duration-200">
+                Masuk ke Panel
             </button>
         </div>
     </div>
 
     <div id="mainPage" class="hidden max-w-6xl mx-auto">
-        <div class="flex flex-col md:flex-row justify-between items-center mb-6 bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
-            <div>
-                <h1 id="displayToko" class="text-2xl font-black text-blue-700 uppercase"></h1>
-                <p class="text-slate-400 text-xs font-bold uppercase">User: rdhmal13@gmail.com</p>
-            </div>
-            <button onclick="logout()" class="mt-4 md:mt-0 bg-red-50 text-red-600 px-6 py-2 rounded-full text-sm font-bold hover:bg-red-100 transition">
-                Logout / Ganti Toko
-            </button>
+        <div class="flex justify-between items-center mb-6 bg-white p-5 rounded-2xl shadow-sm border border-slate-200">
+            <h1 id="displayToko" class="text-2xl font-black text-blue-700 uppercase"></h1>
+            <button onclick="location.reload()" class="bg-red-50 text-red-600 px-6 py-2 rounded-full text-sm font-bold hover:bg-red-100 transition">Logout</button>
         </div>
 
         <form id="formInput" class="bg-white p-8 rounded-2xl shadow-sm mb-10 border border-slate-200">
-            <h3 class="text-lg font-bold mb-6 border-b pb-2 text-slate-700">Input Monitoring Toko</h3>
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div>
-                    <label class="block text-xs font-bold uppercase text-slate-400 mb-1">Tanggal</label>
-                    <input type="date" id="tanggal" required class="w-full border-b-2 border-slate-100 p-2 focus:border-blue-500 outline-none">
-                </div>
-                <div>
-                    <label class="block text-xs font-bold uppercase text-slate-400 mb-1">Jabatan</label>
-                    <select id="jabatan" class="w-full border-b-2 border-slate-100 p-2 focus:border-blue-500 outline-none">
-                        <option>RM</option><option>AM</option><option>DM</option><option>BM</option><option>ABM</option>
-                    </select>
-                </div>
-                <div class="md:col-span-2">
-                    <label class="block text-xs font-bold uppercase text-slate-400 mb-1">Temuan</label>
-                    <textarea id="temuan" rows="2" required class="w-full border-b-2 border-slate-100 p-2 focus:border-blue-500 outline-none" placeholder="Tulis detail temuan..."></textarea>
-                </div>
-                <div class="bg-blue-50 p-4 rounded-xl border border-blue-100">
-                    <label class="block text-xs font-bold uppercase text-blue-500 mb-2">Foto Before</label>
-                    <input type="file" id="fotoBefore" accept="image/*" class="w-full text-sm">
-                </div>
-                <div class="bg-green-50 p-4 rounded-xl border border-green-100">
-                    <label class="block text-xs font-bold uppercase text-green-500 mb-2">Foto After</label>
-                    <input type="file" id="fotoAfter" accept="image/*" class="w-full text-sm">
-                </div>
-                <div class="md:col-span-2">
-                    <label class="block text-xs font-bold uppercase text-slate-400 mb-1">Remark</label>
-                    <input type="text" id="remark" class="w-full border-b-2 border-slate-100 p-2 focus:border-blue-500 outline-none">
-                </div>
+                <div><label class="text-xs font-bold uppercase text-slate-400">Tanggal</label><input type="date" id="tanggal" required class="w-full border-b-2 p-2 outline-none focus:border-blue-500"></div>
+                <div><label class="text-xs font-bold uppercase text-slate-400">Jabatan</label><select id="jabatan" class="w-full border-b-2 p-2 outline-none focus:border-blue-500"><option>RM</option><option>AM</option><option>DM</option><option>BM</option><option>ABM</option></select></div>
+                <div class="md:col-span-2"><label class="text-xs font-bold uppercase text-slate-400">Temuan</label><textarea id="temuan" rows="2" required class="w-full border-b-2 p-2 outline-none focus:border-blue-500"></textarea></div>
+                <div class="bg-blue-50 p-4 rounded-xl"><label class="text-xs font-bold text-blue-500">Foto Before</label><input type="file" id="fotoBefore" accept="image/*" class="w-full text-sm"></div>
+                <div class="bg-green-50 p-4 rounded-xl"><label class="text-xs font-bold text-green-500">Foto After</label><input type="file" id="fotoAfter" accept="image/*" class="w-full text-sm"></div>
+                <div class="md:col-span-2"><label class="text-xs font-bold uppercase text-slate-400">Remark</label><input type="text" id="remark" class="w-full border-b-2 p-2 outline-none"></div>
             </div>
-            <button type="submit" id="btnSimpan" class="w-full mt-8 bg-slate-800 text-white font-bold py-4 rounded-xl hover:bg-black transition shadow-lg">
-                Simpan Temuan
-            </button>
+            <button type="submit" id="btnSimpan" class="w-full mt-8 bg-slate-800 text-white font-bold py-4 rounded-xl hover:bg-black transition shadow-lg">Simpan Data</button>
         </form>
 
         <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
-            <div class="p-4 bg-slate-50 font-bold text-slate-600 border-b">DATABASE MONITORING REALTIME</div>
-            <div class="overflow-x-auto">
-                <table class="w-full text-sm text-left">
-                    <thead class="bg-slate-100 text-slate-500 uppercase text-[10px] tracking-widest">
-                        <tr>
-                            <th class="p-4">Tanggal</th><th class="p-4">Jabatan</th><th class="p-4">Temuan</th>
-                            <th class="p-4">Foto</th><th class="p-4">Remark</th>
-                            <th class="p-4">Komentar SPV</th><th class="p-4">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody id="dataList" class="divide-y divide-slate-100"></tbody>
-                </table>
-            </div>
+            <table class="w-full text-sm text-left">
+                <thead class="bg-slate-800 text-white uppercase text-[10px]">
+                    <tr><th class="p-4">Tgl</th><th class="p-4">Jabatan</th><th class="p-4">Temuan</th><th class="p-4">Foto</th><th class="p-4">Remark</th><th class="p-4 w-1/4">Komentar SPV</th><th class="p-4">Aksi</th></tr>
+                </thead>
+                <tbody id="dataList" class="divide-y divide-slate-100"></tbody>
+            </table>
         </div>
     </div>
 
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js";
         import { getDatabase, ref, push, onValue, update } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
         import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-        // GANTI DENGAN DATA DARI PROJECT SETTINGS ANDA
         const firebaseConfig = {
-            apiKey: "MASUKKAN_API_KEY_ANDA_DI_SINI", // <-- WAJIB DIISI
-            authDomain: "diyblora.firebaseapp.com",
+            apiKey: "MASUKKAN_API_KEY_ANDA_DI_SINI", // <-- TETAP HARUS DIISI
             databaseURL: "https://diyblora-default-rtdb.firebaseio.com",
             projectId: "diyblora",
-            storageBucket: "diyblora.appspot.com",
-            messagingSenderId: "599520857321",
-            appId: "MASUKKAN_APP_ID_ANDA_DI_SINI"   // <-- WAJIB DIISI
+            storageBucket: "diyblora.appspot.com"
         };
 
         const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
         const db = getDatabase(app);
         const storage = getStorage(app);
 
-        // LOGIN (Gunakan Email yang sudah Anda daftarkan di screenshot)
-        window.loginToko = () => {
-            const btn = document.getElementById('btnLogin');
+        let currentToko = "";
+
+        // LOGIN MANUAL (Tanpa Firebase Auth)
+        window.loginManual = () => {
+            const pass = document.getElementById('passwordInput').value;
             const toko = document.getElementById('tokoSelect').value;
-            const pass = document.getElementById('password').value;
-            
-            btn.innerText = "Memproses...";
-            signInWithEmailAndPassword(auth, "rdhmal13@gmail.com", pass)
-                .then(() => {
-                    sessionStorage.setItem("activeToko", toko);
-                })
-                .catch(err => {
-                    alert("Gagal Login: " + err.message);
-                    btn.innerText = "Masuk";
-                });
-        };
 
-        window.logout = () => {
-            sessionStorage.removeItem("activeToko");
-            signOut(auth);
-        };
-
-        onAuthStateChanged(auth, (user) => {
-            const savedToko = sessionStorage.getItem("activeToko");
-            if (user && savedToko) {
+            if (pass === "diyblora123") { // <--- PASSWORD MANUAL ANDA
+                currentToko = toko;
                 document.getElementById('loginPage').classList.add('hidden');
                 document.getElementById('mainPage').classList.remove('hidden');
-                document.getElementById('displayToko').innerText = "TOKO: " + savedToko;
-                loadData(savedToko);
+                document.getElementById('displayToko').innerText = "Toko: " + toko;
+                loadData(toko);
             } else {
-                document.getElementById('loginPage').classList.remove('hidden');
-                document.getElementById('mainPage').classList.add('hidden');
+                alert("Password Salah!");
             }
-        });
+        };
 
-        // SIMPAN DATA & UPLOAD FOTO
+        // SIMPAN DATA
         document.getElementById('formInput').onsubmit = async (e) => {
             e.preventDefault();
             const btn = document.getElementById('btnSimpan');
-            btn.disabled = true; btn.innerText = "Mengunggah Foto...";
+            btn.disabled = true; btn.innerText = "Mengupload...";
 
-            const toko = sessionStorage.getItem("activeToko");
             const fBefore = document.getElementById('fotoBefore').files[0];
             const fAfter = document.getElementById('fotoAfter').files[0];
 
@@ -171,20 +112,18 @@
                     temuan: document.getElementById('temuan').value,
                     fotoBefore: urlB, fotoAfter: urlA,
                     remark: document.getElementById('remark').value,
-                    komentarSPV: "",
-                    aksi: "Pending",
-                    timestamp: Date.now()
+                    komentarSPV: "", aksi: "Pending"
                 };
 
-                await push(ref(db, `monitoring/${toko}`), data);
-                alert("Berhasil disimpan!");
+                await push(ref(db, `monitoring/${currentToko}`), data);
+                alert("Tersimpan!");
                 e.target.reset();
-            } catch (err) { alert("Error: " + err.message); }
-            btn.disabled = false; btn.innerText = "Simpan Temuan";
+            } catch (err) { alert(err.message); }
+            btn.disabled = false; btn.innerText = "Simpan Data";
         };
 
         async function uploadFile(file, type) {
-            const storageRef = sRef(storage, `monitoring/${Date.now()}_${type}`);
+            const storageRef = sRef(storage, `fotos/${Date.now()}_${type}`);
             await uploadBytes(storageRef, file);
             return getDownloadURL(storageRef);
         }
@@ -196,26 +135,17 @@
                 snapshot.forEach((child) => {
                     const d = child.val();
                     list.innerHTML += `
-                        <tr class="hover:bg-slate-50 transition border-b border-slate-50">
-                            <td class="p-4 font-semibold text-slate-700">${d.tanggal}</td>
-                            <td class="p-4 text-xs font-bold text-blue-500">${d.jabatan}</td>
+                        <tr>
+                            <td class="p-4">${d.tanggal}</td>
+                            <td class="p-4 text-xs font-bold text-blue-600">${d.jabatan}</td>
                             <td class="p-4 text-slate-600">${d.temuan}</td>
-                            <td class="p-4">
-                                <div class="flex flex-col gap-1">
-                                    ${d.fotoBefore ? `<a href="${d.fotoBefore}" target="_blank" class="text-[10px] text-blue-600 underline font-bold">BEFORE</a>` : ''}
-                                    ${d.fotoAfter ? `<a href="${d.fotoAfter}" target="_blank" class="text-[10px] text-green-600 underline font-bold">AFTER</a>` : ''}
-                                </div>
+                            <td class="p-4 flex gap-1">
+                                ${d.fotoBefore ? `<a href="${d.fotoBefore}" target="_blank" class="text-[9px] bg-blue-500 text-white p-1 rounded">B</a>` : ''}
+                                ${d.fotoAfter ? `<a href="${d.fotoAfter}" target="_blank" class="text-[9px] bg-green-500 text-white p-1 rounded">A</a>` : ''}
                             </td>
-                            <td class="p-4 text-slate-500 text-xs italic">${d.remark || '-'}</td>
-                            <td class="p-4">
-                                <textarea onchange="updateData('${toko}','${child.key}', 'komentarSPV', this.value)" class="w-full border p-1 text-[11px] rounded" placeholder="Komentar...">${d.komentarSPV}</textarea>
-                            </td>
-                            <td class="p-4">
-                                <select onchange="updateData('${toko}','${child.key}', 'aksi', this.value)" class="text-xs p-1 border rounded bg-white">
-                                    <option ${d.aksi == 'Pending' ? 'selected' : ''}>Pending</option>
-                                    <option ${d.aksi == 'Selesai' ? 'selected' : ''}>Selesai</option>
-                                </select>
-                            </td>
+                            <td class="p-4 text-slate-500 text-xs">${d.remark || '-'}</td>
+                            <td class="p-4"><textarea onchange="updateData('${toko}','${child.key}', 'komentarSPV', this.value)" class="w-full border p-1 text-xs">${d.komentarSPV}</textarea></td>
+                            <td class="p-4"><select onchange="updateData('${toko}','${child.key}', 'aksi', this.value)" class="text-xs p-1 border"><option ${d.aksi == 'Pending' ? 'selected' : ''}>Pending</option><option ${d.aksi == 'Selesai' ? 'selected' : ''}>Selesai</option></select></td>
                         </tr>`;
                 });
             });
