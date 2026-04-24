@@ -3,59 +3,47 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monitoring DIY BLORA - Visual</title>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>DIY BLORA - Instant Upload</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background-color: #f4f7fa; }
-        .card-shadow { box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
-        .img-box { width: 100%; height: 160px; object-fit: cover; border-radius: 12px; }
+        .img-preview { width: 100%; height: 120px; object-fit: cover; border-radius: 8px; background: #eee; }
+        .loading-ring { border: 2px solid #f3f3f3; border-top: 2px solid #3498db; border-radius: 50%; width: 14px; height: 14px; animation: spin 1s linear infinite; display: inline-block; }
+        @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     </style>
 </head>
-<body class="p-4">
+<body class="bg-slate-50 p-2">
 
-    <div id="loginPage" class="max-w-sm mx-auto bg-white p-8 rounded-3xl shadow-2xl mt-20 border border-gray-100">
-        <h2 class="text-3xl font-extrabold text-slate-800 text-center mb-6">DIY BLORA</h2>
-        <div class="space-y-4">
-            <select id="tokoSelect" class="w-full p-3 border rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-blue-500">
-                <option value="XLUN">STORE XLUN</option>
-                <option value="XBLO">STORE XBLO</option>
-            </select>
-            <input type="password" id="passInput" placeholder="Password" class="w-full p-3 border rounded-xl bg-gray-50 outline-none focus:ring-2 focus:ring-blue-500">
-            <button onclick="masuk()" class="w-full bg-slate-900 text-white font-bold py-3 rounded-xl hover:bg-black transition">MASUK PANEL</button>
-        </div>
+    <div id="loginPage" class="max-w-xs mx-auto mt-20 bg-white p-6 rounded-xl shadow-lg text-center">
+        <h2 class="font-black text-xl mb-4">DIY BLORA</h2>
+        <input type="password" id="passInput" placeholder="Password" class="w-full p-2 border mb-4 rounded">
+        <button onclick="masuk()" class="w-full bg-blue-600 text-white py-2 rounded font-bold">MASUK</button>
     </div>
 
-    <div id="mainPage" class="hidden max-w-6xl mx-auto">
-        <div class="flex justify-between items-center mb-8 bg-white p-6 rounded-2xl shadow-sm">
-            <div>
-                <h1 id="tokoAktif" class="text-2xl font-black text-slate-800 uppercase tracking-tighter"></h1>
-                <p class="text-slate-400 text-xs font-bold uppercase">Realtime Monitoring System</p>
+    <div id="mainPage" class="hidden max-w-4xl mx-auto">
+        <form id="fInput" class="bg-white p-4 rounded-xl shadow-sm mb-4 border space-y-3">
+            <div class="grid grid-cols-2 gap-2">
+                <input type="date" id="tgl" required class="border-b p-1 text-sm">
+                <select id="jbt" class="border-b p-1 text-sm"><option>RM</option><option>AM</option><option>DM</option><option>BM</option><option>ABM</option></select>
             </div>
-            <button onclick="location.reload()" class="bg-red-50 text-red-500 px-5 py-2 rounded-full text-xs font-bold hover:bg-red-100">LOGOUT</button>
-        </div>
-
-        <div class="bg-white p-6 rounded-3xl card-shadow mb-10 border border-gray-50">
-            <h3 class="text-sm font-black text-slate-400 uppercase mb-6 tracking-widest">Input Temuan Baru</h3>
-            <form id="fInput" class="grid grid-cols-1 md:grid-cols-4 gap-4">
-                <input type="date" id="tgl" required class="border-b p-2 outline-none text-sm">
-                <select id="jbt" class="border-b p-2 outline-none text-sm font-bold text-blue-600">
-                    <option>RM</option><option>AM</option><option>DM</option><option>BM</option><option>ABM</option>
-                </select>
-                <input type="text" id="tmn" placeholder="Apa temuannya?" required class="md:col-span-2 border-b p-2 outline-none text-sm">
-                
-                <div class="md:col-span-2 grid grid-cols-2 gap-2 bg-slate-50 p-3 rounded-xl border-dashed border-2">
-                    <label class="text-[10px] font-bold">FOTO BEFORE <input type="file" id="fB" accept="image/*" class="block mt-1"></label>
-                    <label class="text-[10px] font-bold">FOTO AFTER <input type="file" id="fA" accept="image/*" class="block mt-1"></label>
+            <textarea id="tmn" placeholder="Input temuan..." required class="w-full border-b p-1 text-sm h-12"></textarea>
+            
+            <div class="grid grid-cols-2 gap-2">
+                <div class="text-center">
+                    <span class="text-[9px] font-bold text-gray-400">BEFORE</span>
+                    <input type="file" id="fB" accept="image/*" class="hidden" onchange="preview(this, 'preB')">
+                    <img id="preB" onclick="document.getElementById('fB').click()" src="https://via.placeholder.com/150?text=Klik+Foto" class="img-preview cursor-pointer border-2 border-dashed">
                 </div>
-                
-                <input type="text" id="rmk" placeholder="Remark" class="border-b p-2 outline-none text-sm">
-                <button type="submit" id="btn" class="bg-blue-600 text-white font-black rounded-xl hover:bg-blue-700 transition">SIMPAN</button>
-            </form>
-        </div>
-
-        <div id="dataGrid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <div class="text-center">
+                    <span class="text-[9px] font-bold text-gray-400">AFTER</span>
+                    <input type="file" id="fA" accept="image/*" class="hidden" onchange="preview(this, 'preA')">
+                    <img id="preA" onclick="document.getElementById('fA').click()" src="https://via.placeholder.com/150?text=Klik+Foto" class="img-preview cursor-pointer border-2 border-dashed">
+                </div>
             </div>
+
+            <button type="submit" id="btn" class="w-full bg-slate-800 text-white py-3 rounded-lg font-bold">KIRIM SEKARANG</button>
+        </form>
+
+        <div id="list" class="space-y-3"></div>
     </div>
 
     <script type="module">
@@ -63,9 +51,8 @@
         import { getDatabase, ref, push, onValue, update, remove } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-database.js";
         import { getStorage, ref as sRef, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-storage.js";
 
-        // CONFIG (Ganti API Key Anda)
         const cfg = {
-            apiKey: "MASUKKAN_API_KEY_ANDA", 
+            apiKey: "MASUKKAN_API_KEY_ANDA",
             databaseURL: "https://diyblora-default-rtdb.asia-southeast1.firebasedatabase.app/",
             projectId: "diyblora",
             storageBucket: "diyblora.appspot.com"
@@ -74,117 +61,92 @@
         const app = initializeApp(cfg);
         const db = getDatabase(app);
         const st = getStorage(app);
-        let tk = "";
+        let tk = "XBLO"; // Default
 
-        // Login Sederhana
         window.masuk = () => {
             if(document.getElementById('passInput').value === "123") {
-                tk = document.getElementById('tokoSelect').value;
-                document.getElementById('loginPage').classList.add('hidden');
-                document.getElementById('mainPage').classList.remove('hidden');
-                document.getElementById('tokoAktif').innerText = "UNIT " + tk;
+                document.getElementById('loginPage').style.display = 'none';
+                document.getElementById('mainPage').style.display = 'block';
                 load();
-            } else { alert("Password Salah!"); }
+            }
         };
 
-        // Kompresi Gambar
-        async function compress(file) {
-            return new Promise((res) => {
-                const reader = new FileReader();
-                reader.readAsDataURL(file);
-                reader.onload = (e) => {
-                    const img = new Image();
-                    img.src = e.target.result;
-                    img.onload = () => {
-                        const canvas = document.createElement('canvas');
-                        const ctx = canvas.getContext('2d');
-                        canvas.width = 800; canvas.height = (img.height / img.width) * 800;
-                        ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-                        canvas.toBlob((blob) => res(blob), 'image/jpeg', 0.7);
-                    };
-                };
-            });
-        }
+        // Fungsi Preview Instan
+        window.preview = (input, targetId) => {
+            const file = input.files[0];
+            if (file) {
+                document.getElementById(targetId).src = URL.createObjectURL(file);
+            }
+        };
 
-        // Upload & Simpan
         document.getElementById('fInput').onsubmit = async (e) => {
             e.preventDefault();
             const b = document.getElementById('btn');
-            b.disabled = true; b.innerText = "Processing...";
-            
-            try {
-                const fB = document.getElementById('fB').files[0];
-                const fA = document.getElementById('fA').files[0];
-                const cB = fB ? await compress(fB) : null;
-                const cA = fA ? await compress(fA) : null;
+            b.disabled = true; b.innerHTML = "Mengirim...";
 
+            const fileB = document.getElementById('fB').files[0];
+            const fileA = document.getElementById('fA').files[0];
+
+            try {
+                // 1. Upload Gambar secara paralel
                 const [uB, uA] = await Promise.all([
-                    cB ? up(cB, 'B') : Promise.resolve(""),
-                    cA ? up(cA, 'A') : Promise.resolve("")
+                    fileB ? up(fileB, 'B') : Promise.resolve(""),
+                    fileA ? up(fileA, 'A') : Promise.resolve("")
                 ]);
 
+                // 2. Simpan Data ke Database
                 await push(ref(db, `monitoring/${tk}`), {
                     tgl: document.getElementById('tgl').value,
                     jbt: document.getElementById('jbt').value,
                     tmn: document.getElementById('tmn').value,
                     fB: uB, fA: uA,
-                    rmk: document.getElementById('rmk').value,
                     spv: "", aks: "Pending", time: Date.now()
                 });
+
+                alert("Terkirim!");
                 e.target.reset();
+                document.getElementById('preB').src = "https://via.placeholder.com/150?text=Klik+Foto";
+                document.getElementById('preA').src = "https://via.placeholder.com/150?text=Klik+Foto";
             } catch (err) { alert("Gagal!"); }
-            b.disabled = false; b.innerText = "SIMPAN";
+            b.disabled = false; b.innerHTML = "KIRIM SEKARANG";
         };
 
-        async function up(blob, n) {
+        async function up(f, n) {
             const r = sRef(st, `m/${Date.now()}_${n}.jpg`);
-            await uploadBytes(r, blob);
+            await uploadBytes(r, f);
             return getDownloadURL(r);
         }
 
-        // TAMPILKAN DATA (Card Style)
         function load() {
-            onValue(ref(db, `monitoring/${tk}`), (snap) => {
-                const grid = document.getElementById('dataGrid');
-                grid.innerHTML = "";
-                let entries = [];
-                snap.forEach(c => { entries.push({key: c.key, ...c.val()}); });
-                entries.reverse().forEach(d => {
-                    grid.innerHTML += `
-                        <div class="bg-white rounded-3xl overflow-hidden card-shadow border border-gray-100 flex flex-col">
-                            <div class="p-2 grid grid-cols-2 gap-1">
-                                <img src="${d.fB || 'https://via.placeholder.com/150?text=No+Photo'}" class="img-box bg-gray-100">
-                                <img src="${d.fA || 'https://via.placeholder.com/150?text=No+Photo'}" class="img-box bg-gray-100">
+            onValue(ref(db, `monitoring/${tk}`), (s) => {
+                const l = document.getElementById('list'); l.innerHTML = "";
+                let arr = []; s.forEach(c => { arr.push({id:c.key, ...c.val()}); });
+                arr.reverse().forEach(d => {
+                    l.innerHTML += `
+                    <div class="bg-white p-3 rounded-lg shadow-sm border">
+                        <div class="flex gap-2 mb-2">
+                            <img src="${d.fB || ''}" class="w-1/2 h-24 object-cover rounded bg-gray-100" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
+                            <img src="${d.fA || ''}" class="w-1/2 h-24 object-cover rounded bg-gray-100" onerror="this.src='https://via.placeholder.com/150?text=No+Image'">
+                        </div>
+                        <div class="text-[11px]">
+                            <div class="flex justify-between font-bold text-blue-600"><span>${d.tgl}</span><span>${d.jbt}</span></div>
+                            <div class="mt-1 font-bold">${d.tmn}</div>
+                            <textarea onchange="upd('${d.id}', 'spv', this.value)" class="w-full border mt-2 p-1 rounded" placeholder="Komentar...">${d.spv}</textarea>
+                            <div class="flex gap-2 mt-2">
+                                <select onchange="upd('${d.id}', 'aks', this.value)" class="flex-1 border rounded p-1">
+                                    <option ${d.aks=='Pending'?'selected':''}>Pending</option>
+                                    <option ${d.aks=='Selesai'?'selected':''}>Selesai</option>
+                                </select>
+                                <button onclick="hapus('${d.id}')" class="bg-red-50 text-red-500 px-3 rounded">Hapus</button>
                             </div>
-                            <div class="p-5 flex-1">
-                                <div class="flex justify-between items-start mb-2">
-                                    <span class="text-[10px] font-black bg-blue-100 text-blue-700 px-2 py-1 rounded-md uppercase">${d.jbt}</span>
-                                    <span class="text-[10px] text-gray-400 font-bold">${d.tgl}</span>
-                                </div>
-                                <h4 class="font-bold text-slate-800 text-sm mb-1">${d.tmn}</h4>
-                                <p class="text-xs text-slate-400 italic mb-4">${d.rmk || ''}</p>
-                                
-                                <div class="space-y-3 pt-4 border-t border-gray-50">
-                                    <textarea onchange="upd('${d.key}', 'spv', this.value)" 
-                                        class="w-full p-2 text-[11px] bg-slate-50 rounded-lg outline-none focus:ring-1 focus:ring-blue-300 h-16" 
-                                        placeholder="Komentar SPV...">${d.spv || ''}</textarea>
-                                    
-                                    <div class="flex gap-2">
-                                        <select onchange="upd('${d.key}', 'aks', this.value)" class="flex-1 text-[11px] font-bold p-2 rounded-lg bg-gray-100 outline-none">
-                                            <option ${d.aks == 'Pending' ? 'selected' : ''}>Pending</option>
-                                            <option ${d.aks == 'Selesai' ? 'selected' : ''}>Selesai</option>
-                                        </select>
-                                        <button onclick="hapus('${d.key}')" class="bg-red-50 text-red-500 p-2 rounded-lg text-[11px] font-bold">HAPUS</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>`;
+                        </div>
+                    </div>`;
                 });
             });
         }
 
         window.upd = (id, f, v) => { update(ref(db, `monitoring/${tk}/${id}`), { [f]: v }); };
-        window.hapus = (id) => { if(confirm("Hapus data ini?")) remove(ref(db, `monitoring/${tk}/${id}`)); };
+        window.hapus = (id) => { if(confirm("Hapus?")) remove(ref(db, `monitoring/${tk}/${id}`)); };
     </script>
 </body>
 </html>
